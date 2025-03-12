@@ -13,34 +13,43 @@ const FlashcardForm = ({ onSubmit, initialValues, categories, onCancel }: Flashc
     term: initialValues?.term || '',
     definition: initialValues?.definition || '',
     example: initialValues?.example || '',
-    category: initialValues?.category || categories[0],
+    category: initialValues?.category || (categories.length > 0 ? categories[0] : ''),
     ...(initialValues?.id ? { id: initialValues.id } : {})
   });
 
+  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData(prev => ({ ...prev, [field]: e.target.value }));
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    // Prevent submission if required fields are empty
+    if (!formData.term.trim() || !formData.definition.trim()) {
+      alert('Term and Definition are required.');
+      return;
+    }
     onSubmit(formData);
   };
 
   return (
     <form onSubmit={handleSubmit} className="card p-4">
-      <h3>{initialValues ? 'Edit' : 'Add'} Flashcard</h3>
+      <h3>{initialValues ? 'Edit Flashcard' : 'Add New Flashcard'}</h3>
       <div className="mb-3">
-        <label className="form-label">Term</label>
+        <label className="form-label">Term <span className="text-danger">*</span></label>
         <input
           type="text"
           className="form-control"
           value={formData.term}
-          onChange={e => setFormData({ ...formData, term: e.target.value })}
+          onChange={handleChange('term')}
           required
         />
       </div>
       <div className="mb-3">
-        <label className="form-label">Definition</label>
+        <label className="form-label">Definition <span className="text-danger">*</span></label>
         <textarea
           className="form-control"
           value={formData.definition}
-          onChange={e => setFormData({ ...formData, definition: e.target.value })}
+          onChange={handleChange('definition')}
           required
         />
       </div>
@@ -49,8 +58,7 @@ const FlashcardForm = ({ onSubmit, initialValues, categories, onCancel }: Flashc
         <textarea
           className="form-control"
           value={formData.example}
-          onChange={e => setFormData({ ...formData, example: e.target.value })}
-          required
+          onChange={handleChange('example')}
         />
       </div>
       <div className="mb-3">
@@ -58,11 +66,16 @@ const FlashcardForm = ({ onSubmit, initialValues, categories, onCancel }: Flashc
         <select
           className="form-select"
           value={formData.category}
-          onChange={e => setFormData({ ...formData, category: e.target.value })}
+          onChange={handleChange('category')}
+          disabled={categories.length === 0}
         >
-          {categories.map(category => (
-            <option key={category} value={category}>{category}</option>
-          ))}
+          {categories.length === 0 ? (
+            <option value="">No categories available</option>
+          ) : (
+            categories.map(category => (
+              <option key={category} value={category}>{category}</option>
+            ))
+          )}
         </select>
       </div>
       <div className="d-flex gap-2">

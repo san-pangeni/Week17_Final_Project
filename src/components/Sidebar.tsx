@@ -1,29 +1,32 @@
 interface SidebarProps {
-    categories: string[];
-    selectedCategory: string | null;
-    onSelectCategory: (category: string | null) => void;
-  }
+  categories: string[];
+  selectedCategory: string | null;
+  onSelectCategory: (category: string | null) => void;
+}
+
+const Sidebar = ({ categories, selectedCategory, onSelectCategory }: SidebarProps) => {
+  // Get count of categories to display badges (would need to pass flashcards as prop in real implementation)
   
-  const Sidebar = ({ categories, selectedCategory, onSelectCategory }: SidebarProps) => {
-    return (
-      <div className="list-group">
+  return (
+    <div className="list-group list-group-flush">
+      <button 
+        className={`list-group-item list-group-item-action d-flex justify-content-between align-items-center ${selectedCategory === null ? 'active fw-bold' : ''}`} 
+        onClick={() => onSelectCategory(null)}
+      >
+        <span><i className="bi bi-grid me-2"></i>All Categories</span>
+      </button>
+      
+      {categories.map((category) => (
         <button 
-          className={`list-group-item list-group-item-action ${selectedCategory === null ? 'active' : ''}`} 
-          onClick={() => onSelectCategory(null)}
+          key={category} 
+          className={`list-group-item list-group-item-action d-flex justify-content-between align-items-center ${selectedCategory === category ? 'active fw-bold' : ''}`} 
+          onClick={() => onSelectCategory(category)}
         >
-          All Categories
+          <span><i className="bi bi-tag me-2"></i>{category}</span>
         </button>
-        {categories.map((category) => (
-          <button 
-            key={category} 
-            className={`list-group-item list-group-item-action ${selectedCategory === category ? 'active' : ''}`} 
-            onClick={() => onSelectCategory(category)}
-          >
-            {category}
-          </button>
-        ))}
-      </div>
-    );
-  };
-  
-  export default Sidebar;
+      ))}
+    </div>
+  );
+};
+
+export default Sidebar;

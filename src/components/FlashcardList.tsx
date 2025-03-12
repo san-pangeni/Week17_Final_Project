@@ -13,9 +13,17 @@ const FlashcardList: React.FC<FlashcardListProps> = ({
   onEdit, 
   onDelete 
 }) => {
+  // Sort flashcards by category then by term
+  const sortedFlashcards = [...flashcards].sort((a, b) => {
+    if (a.category !== b.category) {
+      return a.category.localeCompare(b.category);
+    }
+    return a.term.localeCompare(b.term);
+  });
+  
   return (
-    <div className="row row-cols-1 row-cols-md-2 g-4">
-      {flashcards.map((flashcard) => (
+    <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
+      {sortedFlashcards.map((flashcard) => (
         <div className="col" key={flashcard.id}>
           <Flashcard 
             flashcard={flashcard} 
