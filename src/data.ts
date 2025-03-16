@@ -106,13 +106,6 @@ export const flashcardData: Flashcard[] = [
     example: "A full circle is 2π radians, which equals 360 degrees. Therefore, π radians = 180 degrees."
   },
   {
-    id: 15,
-    category: "Trigonometry",
-    term: "Law of Sines",
-    definition: "A relationship between the sides and angles of a triangle: a/sin(A) = b/sin(B) = c/sin(C)",
-    example: "In a triangle with sides a, b, c and angles A, B, C, if a = 5, b = 7, and A = 30°, then sin(B) = (b × sin(A))/a = (7 × sin(30°))/5 = 7/10"
-  },
-  {
     id: 16,
     category: "Logarithms",
     term: "Logarithm",
