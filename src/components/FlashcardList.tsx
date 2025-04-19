@@ -1,38 +1,53 @@
 import React from 'react';
-import { Flashcard as FlashcardType } from '../data';
+import { Row, Col } from 'react-bootstrap';
 import Flashcard from './Flashcard';
+import { Flashcard as FlashcardType } from '../data/types';
+import LoadingSpinner from './LoadingSpinner';
+import ErrorMessage from './ErrorMessage';
 
 interface FlashcardListProps {
   flashcards: FlashcardType[];
+  isLoading: boolean;
+  error: string | null;
   onEdit: (card: FlashcardType) => void;
-  onDelete: (id: number) => void;
+  onDelete: (id: string) => void;
+  showControls?: boolean;
 }
 
-const FlashcardList: React.FC<FlashcardListProps> = ({ 
-  flashcards, 
-  onEdit, 
-  onDelete 
+const FlashcardList: React.FC<FlashcardListProps> = ({
+    flashcards,
+    isLoading,
+    error,
+    onEdit,
+    onDelete,
+    showControls = true
 }) => {
-  // Sort flashcards by category then by term
-  const sortedFlashcards = [...flashcards].sort((a, b) => {
-    if (a.category !== b.category) {
-      return a.category.localeCompare(b.category);
-    }
-    return a.term.localeCompare(b.term);
-  });
-  
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return <ErrorMessage message={error} />;
+  }
+
+  if (!flashcards || flashcards.length === 0) {
+    return <p className="text-center text-muted mt-4">No flashcards found. Add some!</p>;
+  }
+
   return (
-    <div className="row row-cols-1 row-cols-md-2 row-cols-xl-3 g-4">
-      {sortedFlashcards.map((flashcard) => (
-        <div className="col" key={flashcard.id}>
-          <Flashcard 
-            flashcard={flashcard} 
+    <Row xs={1} md={2} lg={3} className="g-4">
+      {flashcards.map((card) => (
+        <Col key={card.id}>
+          <Flashcard
+            cardData={card}
             onEdit={onEdit}
             onDelete={onDelete}
+            showControls={showControls}
           />
-        </div>
+        </Col>
       ))}
-    </div>
+    </Row>
   );
 };
 

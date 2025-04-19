@@ -1,46 +1,16 @@
 .flip-card-container {
-  min-height: 400px;
-  width: 100%;
   perspective: 1000px;
-  margin-bottom: 30px;
+  min-height: 250px;
+  cursor: pointer;
 }
 
 .flip-card {
   position: relative;
   width: 100%;
   height: 100%;
-  min-height: 400px;
-  cursor: pointer;
+  min-height: inherit;
   transform-style: preserve-3d;
   transition: transform 0.6s;
-}
-
-.card {
-  height: 100%;
-  margin: 0 auto;
-  max-width: 100%;
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-/* Hover effect */
-.flip-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-}
-
-/* Tablet and up */
-@media (min-width: 768px) {
-  .card {
-    max-width: 95%;
-  }
-}
-
-/* Desktop */
-@media (min-width: 992px) {
-  .card {
-    max-width: 90%;
-  }
 }
 
 .flip-card.flipped {
@@ -50,77 +20,36 @@
 .flip-card-front,
 .flip-card-back {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.flip-card-front .card,
+.flip-card-back .card {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 0;
 }
 
 .flip-card-back {
   transform: rotateY(180deg);
 }
 
-.card-header {
-  background-color: rgba(0, 0, 0, 0.03);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+.flip-card-front .card-body,
+.flip-card-back .card-body {
+    overflow-y: auto;
 }
 
-.card-body {
-  padding: 1.5rem;
-  overflow-y: auto;
+.definition, .example {
+    word-wrap: break-word;
 }
 
-/* Definition styling */
-.definition {
-  font-size: 1.1rem;
-  line-height: 1.6;
+.flip-card button {
+    cursor: auto;
 }
-
-/* Example styling */
-.example {
-  background-color: rgba(0, 0, 0, 0.03);
-  padding: 0.75rem;
-  border-radius: 5px;
-  font-style: italic;
-}
-
-/* Responsive text sizing */
-.card-title {
-  font-size: 1.25rem;
-  margin: 0.5rem 0 1rem;
-  font-weight: 600;
-}
-
-@media (min-width: 768px) {
-  .card-title {
-    font-size: 1.5rem;
-  }
-}
-
-@media (min-width: 992px) {
-  .card-title {
-    font-size: 1.7rem;
-  }
-}
-
-.card-text {
-  font-size: 1rem;
-  line-height: 1.6;
-  margin: 0 auto;
-}
-
-@media (min-width: 768px) {
-  .card-text {
-    font-size: 1.1rem;
-  }
-}
-
-@media (min-width: 992px) {
-  .card-text {
-    font-size: 1.2rem;
-    line-height: 1.8;
-  }
-}
-
-/* Add Bootstrap Icons */
-@import "bootstrap-icons/font/bootstrap-icons.css";

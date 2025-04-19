@@ -3,95 +3,99 @@ body {
     background-color: #f8f9fa;
     font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   }
-  
+
   .app-header {
     background: linear-gradient(135deg, #7b96c0 0%, #677d9e 100%);
     padding: 2rem 0;
     margin-bottom: 2rem;
     border-radius: 0 0 0.5rem 0.5rem;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    color: white; /* Added for better contrast */
   }
-  
+
   .app-header h1 {
     font-weight: 700;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
   }
-  
+
   .app-header p {
     font-weight: 300;
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
   }
-  
+
   /* Card styles */
   .card {
     border: none;
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     transition: all 0.3s ease;
   }
-  
+
   .card:hover {
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
   }
-  
+
   /* Add border accent */
   .card {
-    border-left: 4px solid #6745c2;
+    border-left: 4px solid #6745c2; /* Adjusted color slightly */
   }
-  
+
   /* Form styling */
-  .form-control:focus, 
+  .form-control:focus,
   .form-select:focus {
-    border-color: #5f4bb1;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    border-color: #8a7bdb; /* Adjusted focus color */
+    box-shadow: 0 0 0 0.25rem rgba(103, 69, 194, 0.25); /* Adjusted focus shadow */
   }
-  
+
   .btn-primary {
     background-color: #55719a;
     border-color: #556479;
   }
-  
+
   .btn-primary:hover {
-    background-color: #ce94c6;
-    border-color: #9f69a6;
+    background-color: #678abd; /* Adjusted hover color */
+    border-color: #5f7ca8; /* Adjusted hover border color */
   }
-  
+
   /* Animation for adding new cards */
   @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  
-  .col {
+
+  /* Apply fade-in to cards in a grid if needed */
+  .row > .col {
     animation: fadeIn 0.5s ease-out;
   }
-  
-  /* Sticky sidebar improvements */
+
+  /* Sticky sidebar improvements (if you use one) */
   .sticky-top {
     top: 1rem;
     z-index: 100;
   }
-  
+
   /* Custom scrollbar */
   ::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   ::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 10px;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: #678abd;
     border-radius: 10px;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
-    background: #c389ce;
+    background: #55719a; /* Adjusted hover color */
   }
-  
+
   /* Footer styling */
   footer {
     border-top: 1px solid #dee2e6;
     margin-top: 3rem;
+    padding: 1rem 0;
+    background-color: #e9ecef; /* Added background color */
   }
