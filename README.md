@@ -1,107 +1,111 @@
-Below is a rewritten summary of the React flashcard application, tailored for documentation purposes. It provides a clear, concise, and technical overview suitable for developers who need to understand or contribute to the project.
+\# Precalculus Flashcards
 
----
+This is an interactive flashcard application built with React and TypeScript, designed for studying precalculus concepts. It allows users to view, add, edit, and delete flashcards, filter by category, and search for specific terms or definitions.
 
-## React Flashcard Application Documentation
+## Features
 
-This React application is an interactive flashcard study tool designed primarily for precalculus concepts, though its structure allows easy adaptation to other subjects. It offers features such as flippable flashcards, category-based filtering, search functionality, and full CRUD (Create, Read, Update, Delete) operations for managing flashcards. Data persistence is implemented using local storage, ensuring that user progress and modifications are preserved across sessions.
+* **Interactive Flashcards:** View terms on one side and definitions/examples on the other with a flip animation.
+* **CRUD Operations:** Create, Read, Update, and Delete flashcards.
+* **Category Filtering:** Filter the displayed flashcards based on predefined categories.
+* **Search:** Search through flashcard terms and definitions.
+* **Data Persistence:** Flashcard data is fetched from/saved to a MockAPI endpoint.
 
-### Key Features
-- **Interactive Flashcards**: Flippable cards display terms, definitions, and examples.
-- **Category Filtering**: Filter flashcards by subject or topic.
-- **Search Functionality**: Search terms or definitions to quickly find cards.
-- **CRUD Operations**: Create, read, update, and delete flashcards with ease.
-- **Data Persistence**: Local storage retains user data between sessions.
+## Tech Stack
 
----
+* **Frontend:** React, TypeScript
+* **Build Tool:** Vite
+* **Styling:** Bootstrap, React-Bootstrap, Custom CSS
+* **API Client:** Axios
+* **Routing:** React Router DOM
+* **Linting/Formatting:** ESLint, TypeScript
+* **API (Backend):** MockAPI (used via `flashcardApi.ts`)
 
-### Components
+## Core Concepts Explained
 
-The application is built with a modular structure, utilizing the following key components:
+Here's a breakdown of the key parts of the application:
 
-- **`App.tsx`**  
-  The central component that orchestrates the application. It manages state, handles filtering and search logic, and renders child components. It serves as the entry point for all major functionality.
+### 1. Project Setup & Structure
 
-- **`Flashcard.tsx`**  
-  Represents an individual flashcard with a flip animation to toggle between the term and its definition/example. Includes edit and delete buttons, with a confirmation prompt for deletions to prevent accidental removal.
+* **Foundation:** The project utilizes Vite for a fast development experience and optimized builds. React is employed for building the user interface through a component-based architecture, and TypeScript adds static typing for enhanced code quality and error detection.
+* **Key Files/Folders:**
+    * `index.html`: The main HTML file served to the browser.
+    * `src/main.tsx` (Inferred): The entry point where the React application is mounted onto the DOM.
+    * `src/App.tsx` (Inferred): The root component managing overall layout, state, and orchestration of other components.
+    * `src/components/`: Contains reusable UI components like `Flashcard.tsx`, `FlashcardList.tsx`, `FlashcardForm.tsx`, and `Sidebar.tsx`.
+    * `src/api/`: Houses the logic for interacting with the backend API, primarily in `flashcardApi.ts`.
+    * `src/data/`: Includes TypeScript type definitions (`types.ts`) and potentially initial/sample data (`data.ts`).
+    * `src/styles/`: Contains global CSS (`index.css`) and component-specific styles (`flashcard.css`).
+    * `package.json`: Defines project metadata, dependencies, and runnable scripts like `npm run dev`.
 
-- **`FlashcardList.tsx`**  
-  Displays a responsive grid of flashcards, sorted by category and term. Uses Bootstrap's grid system for layout adaptability across screen sizes.
+### 2. Core Components
 
-- **`FlashcardForm.tsx`**  
-  A reusable form for adding or editing flashcards. Switches between "Add" and "Edit" modes dynamically and includes validation for required fields (e.g., term, definition).
+The UI is built using several key React components:
 
-- **`Sidebar.tsx`**  
-  A navigation menu for filtering flashcards by category. Highlights the active category and includes an "All" option to view unfiltered results.
+* **`App.tsx` (Root Component):** Manages the core application state (flashcards, filters, form visibility) and renders the main layout including the header, sidebar, and flashcard list. It passes down necessary data and callback functions to child components.
+* **`FlashcardList.tsx`:** Receives the array of flashcards to display (potentially filtered by `App.tsx`) and maps over them, rendering an individual `Flashcard` component for each one. Uses Bootstrap for responsive grid layout.
+* **`Flashcard.tsx`:** Represents a single interactive flashcard. It manages its "flipped" state internally using `useState`. Displays the term initially and reveals the definition/example upon clicking. Contains the Edit and Delete buttons, which trigger functions passed down from `App.tsx`. The flip animation is handled via custom CSS.
+* **`FlashcardForm.tsx`:** A reusable form for both adding new flashcards and editing existing ones. It can be pre-filled with data for editing. Manages form input state and calls API functions provided by `App.tsx` upon submission.
+* **`Sidebar.tsx`:** Displays available categories and allows users to click on one to filter the flashcards displayed in `FlashcardList.tsx`.
 
-- **`data.ts`**  
-  Defines the `Flashcard` interface and provides initial sample data. Extracts unique categories into a separate array for filtering and form dropdowns.
+### 3. Data Handling & API Interaction
 
----
+* **Data Structure:** Flashcards adhere to the `Flashcard` interface defined in `src/data/types.ts`, specifying fields like `id`, `category`, `term`, `definition`, and `example`.
+* **API Layer:** Communication with the backend is handled through functions defined in `src/api/flashcardApi.ts`. This file uses the Axios library to perform HTTP requests (GET, POST, PUT, DELETE) to a MockAPI endpoint. Functions like `getFlashcards`, `createFlashcard`, `updateFlashcard`, and `deleteFlashcard` encapsulate the API calls.
+* **MockAPI & Seeding:** The application is configured to work with MockAPI, a tool for simulating a backend. A script, `seedMockApi.js`, is provided to populate the MockAPI endpoint with sample data defined in `src/data.ts`.
 
-### Data Management
+### 4. State Management
 
-Flashcard data is stored as an array of objects with the following structure:
+* **React Hooks:** State is primarily managed using React's built-in hooks, `useState` and `useEffect`, within functional components.
+* **Central State (`App.tsx`):** The main `App` component holds crucial state variables:
+    * `flashcards`: An array storing all flashcard data, typically fetched from the API.
+    * `selectedCategory`, `searchTerm`: Store the current filtering criteria applied by the user.
+    * `showForm`, `editingCard`: Control the modal form's visibility and determine if it's in "add" or "edit" mode.
+* **Data Fetching & Synchronization:** `useEffect` is used in `App.tsx` to fetch the initial list of flashcards from the API when the application loads. Subsequent updates (add, edit, delete) involve calling the appropriate API function and then updating the local `flashcards` state to keep the UI synchronized.
+* **Derived State:** The list of flashcards actually displayed is often *derived* within `App.tsx` by filtering the main `flashcards` state based on the current `selectedCategory` and `searchTerm`, rather than storing the filtered list as separate state.
 
-```typescript
-interface Flashcard {
-  id: string;         // Unique identifier
-  category: string;   // Topic or subject area
-  term: string;       // Concept or term
-  definition: string; // Explanation of the term
-  example?: string;   // Optional illustrative example
-}
-```
+### 5. Styling
 
-- **Categories**: Unique categories are derived from the flashcard data and stored separately to support filtering and dropdown menus.
+* **Bootstrap:** The application leverages Bootstrap and the React-Bootstrap library for base styling, responsive layout (grid), and common UI elements (buttons, forms, etc.).
+* **Custom CSS:** Specific styling requirements are handled with CSS files:
+    * `src/styles/index.css`: Contains global application styles.
+    * `src/components/flashcard.css`: Defines the styles for the 3D flip animation using CSS properties like `transform`, `perspective`, and `backface-visibility`.
 
----
+## Setup
 
-### State Management
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd precalc-flashcards
+    ```
+2.  **Install dependencies:** Use npm or yarn to install the packages listed in `package.json`.
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-State is managed primarily in `App.tsx` using React hooks:
+## Usage
 
-- **`useState`**:
-  - `flashcards`: The array of flashcard objects, initialized from local storage or default data.
-  - `selectedCategory`: Tracks the active category filter.
-  - `searchTerm`: Stores the current search input.
-  - `showForm`: Toggles the visibility of the form modal.
-  - `editingCard`: Holds the card being edited (if any).
+1.  **Run the development server:** Execute the `dev` script defined in `package.json`.
+    ```bash
+    npm run dev
+    # or
+    yarn dev
+    ```
+2.  Open your browser to the specified local address (e.g., `http://localhost:5173`).
 
-- **`useEffect`**:
-  - Synchronizes the `flashcards` state with local storage whenever it changes, ensuring data persistence.
+## API Details
 
----
+The application interacts with a MockAPI endpoint defined in `src/api/flashcardApi.ts`. Key operations include:
 
-### User Interactions
+* Fetching all flashcards (`GET /flashcards`).
+* Creating a flashcard (`POST /flashcards`).
+* Updating a flashcard (`PUT /flashcards/:id`).
+* Deleting a flashcard (`DELETE /flashcards/:id`).
 
-The application supports the following user interactions:
+## Seeding Mock API Data (Optional)
 
-- **Flipping Cards**: Clicking a card flips it to show the definition and example.
-- **Filtering by Category**: Selecting a category from the sidebar updates the displayed flashcards.
-- **Searching**: Typing a search term filters cards based on matches in the term or definition.
-- **Adding Flashcards**: A form modal allows users to create new flashcards with required field validation.
-- **Editing Flashcards**: Existing cards can be edited via the form, pre-populated with current data.
-- **Deleting Flashcards**: Deletion requires confirmation to avoid accidental data loss.
+To populate your MockAPI endpoint with the sample data found in `src/data.ts`, you can run the provided seeding script:
 
----
-
-### Styling and UI
-
-- **Bootstrap**: Provides consistent styling and a responsive grid layout for components like the flashcard list and sidebar.
-- **Custom CSS** (`Flashcard.css`):
-  - Implements a 3D flip animation for flashcards.
-  - Adjusts card sizes and text responsively for different screen sizes.
-  - Adds hover effects and category-specific styling for visual clarity.
-
----
-
-### Local Storage
-
-Data persistence is achieved using the browser's `localStorage`:
-- The `flashcards` array is serialized to JSON and saved whenever it updates (e.g., after adding, editing, or deleting a card).
-- On application load, the state is initialized by deserializing the stored data, falling back to default data from `data.ts` if no stored data exists.
-
----
-
-This documentation provides a technical overview of the React flashcard application's structure, functionality, and implementation details. Developers can use this as a foundation for understanding the codebase, extending features, or adapting the app for other use cases.
+```bash
+node seedMockApi.js
